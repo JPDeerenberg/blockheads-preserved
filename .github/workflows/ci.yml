@@ -62,7 +62,7 @@ jobs:
       - name: Server starts and listens on UDP 15151
         run: |
           docker run -d --name bh --network host -v bhdata:/data -e BH_WORLD=CI blockheads-preserved-server
-          sleep 5
+          sleep 8
           docker logs bh
           ss -lunp | grep ':15151 '
           docker stop bh
@@ -71,7 +71,7 @@ jobs:
       - name: Restart reuses the same world
         run: |
           docker run -d --name bh --network host -v bhdata:/data -e BH_WORLD=CI blockheads-preserved-server
-          sleep 6
+          sleep 8
           docker logs bh | tee restart.log
           ! grep -q 'Creating new world' restart.log
           grep -q 'Loading world named "CI"' restart.log
