@@ -14,7 +14,7 @@ WORLD="${BH_WORLD:-PRESERVED}"
 PORT="${BH_PORT:-15151}"
 
 set -- -p "$PORT"
-ID="$("$BIN" --list 2>&1 | sed -n "s/.*\"$WORLD\" stored in directory named \(.*\)\$/\1/p" | head -n 1)"
+ID="$("$BIN" --list 2>&1 | grep -iF "\"$WORLD\" stored in directory named" | sed -n 's/.*stored in directory named \(.*\)$/\1/p' | head -n 1)"
 if [ -n "$ID" ]; then
     set -- "$@" -o "$ID"
 else
