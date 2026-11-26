@@ -1,0 +1,17 @@
+services:
+  blockheads:
+    build: .
+    image: ghcr.io/jpdeerenberg/blockheads-preserved-server:latest
+    container_name: blockheads
+    restart: unless-stopped
+    ports:
+      - "15151:15151/udp"
+    environment:
+      BH_WORLD: "${BH_WORLD:-PRESERVED}"
+      BH_PORT: "15151"
+      BH_PRIVACY: "${BH_PRIVACY:-public}"
+      BH_MAX_PLAYERS: "${BH_MAX_PLAYERS:-}"
+      BH_OWNER: "${BH_OWNER:-}"
+    volumes:
+      - ./data:/data
+    stop_grace_period: 30s

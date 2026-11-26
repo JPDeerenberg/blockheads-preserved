@@ -1,0 +1,8 @@
+{
+  "name": "@blockheads-preserved/patcher-cli",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@bh-patcher/core": "file:../third_party/blockheads-patcher/packages/core"
+  }
+}

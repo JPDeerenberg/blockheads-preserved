@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Blockheads Preserved — join a world</title>
+<style>
+  :root { --bg:#12100e; --panel:#1d1a16; --line:#332d25; --text:#f2e9dc; --muted:#a99c8a; --accent:#7dc98b; --accent2:#e0b364; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:radial-gradient(1200px 600px at 50% -10%, #2a2419 0%, var(--bg) 60%); color:var(--text);
+         font:16px/1.55 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; min-height:100vh; }
+  main { max-width: 720px; margin: 0 auto; padding: 48px 20px 64px; }
+  h1 { font-size: clamp(28px, 5vw, 42px); line-height:1.1; margin: 0 0 8px; letter-spacing:-.02em; }
+  h1 span { color: var(--accent); }
+  p.lede { color: var(--muted); margin: 0 0 28px; }
+  .card { background: color-mix(in srgb, var(--panel) 92%, transparent); border:1px solid var(--line); border-radius:16px;
+          padding: 20px; box-shadow: 0 20px 60px #0006; }
+  label { display:block; font-size:12px; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); margin: 0 0 6px; }
+  .row { display:grid; grid-template-columns: 1fr 120px; gap:12px; }
+  input { width:100%; background:#0e0c0a; color:var(--text); border:1px solid var(--line); border-radius:10px;
+          padding:11px 12px; font:inherit; }
+  input:focus { outline:2px solid var(--accent); outline-offset:1px; border-color:transparent; }
+  .field { margin-bottom: 14px; }
+  .out { margin-top: 18px; }
+  code { display:block; background:#0e0c0a; border:1px solid var(--line); border-radius:10px; padding:11px 12px;
+         font:13px/1.5 ui-monospace, SFMono-Regular, Menlo, monospace; overflow-wrap:anywhere; color:#d9f0dd; }
+  .buttons { display:flex; flex-wrap:wrap; gap:10px; margin-top:12px; }
+  button, a.btn { appearance:none; border:1px solid var(--line); background:#26211a; color:var(--text); border-radius:10px;
+          padding:10px 14px; font:inherit; font-weight:600; cursor:pointer; text-decoration:none; }
+  button:hover, a.btn:hover { border-color:var(--accent); }
+  button.primary { background: var(--accent); border-color: var(--accent); color:#0c1a10; }
+  .hint { color:var(--muted); font-size:13.5px; margin-top:18px; }
+  ol { padding-left: 20px; } li { margin: 4px 0; }
+  .warn { border-left:3px solid var(--accent2); padding-left:12px; color:#d9c9ae; font-size:14px; margin-top:18px; }
+  footer { color:var(--muted); font-size:13px; margin-top:28px; text-align:center; }
+  footer a { color:var(--accent); }
+</style>
+</head>
+<body>
+<main>
+  <h1>The Blockheads <span>Preserved</span></h1>
+  <p class="lede">Point the game at your own server. No account, no store, no cloud.</p>
+
+  <div class="card">
+    <div class="field">
+      <label for="host">Server address</label>
+      <input id="host" placeholder="192.168.1.20 or play.example.com" autocomplete="off" spellcheck="false">
+    </div>
+    <div class="row">
+      <div class="field">
+        <label for="port">Port (UDP)</label>
+        <input id="port" value="15151" inputmode="numeric">
+      </div>
+      <div class="field">
+        <label for="name">World name</label>
+        <input id="name" value="PRESERVED">
+      </div>
+    </div>
+
+    <div class="out">
+      <label>In-game join</label>
+      <ol>
+        <li>Open <b>Join World → Advanced… → Online IP/Port</b></li>
+        <li>Enter <b id="hintHost">your server address</b> and <b id="hintPort">15151</b></li>
+      </ol>
+    </div>
+
+    <div class="out">
+      <label>Join link (experimental)</label>
+      <code id="link">blockheads://join.php?ip=…</code>
+      <div class="buttons">
+        <button class="primary" id="copy">Copy link</button>
+        <a class="btn" id="open" href="#">Open in game</a>
+        <button id="copyHttp">Copy http:// link</button>
+      </div>
+    </div>
+
+    <p class="warn">Automatic link opening depends on Android intent delivery and has not been verified on every
+      version. If nothing happens, use the Online IP/Port dialog above — that always works.</p>
+  </div>
+
+  <p class="hint">Running the server: <code style="display:inline;padding:2px 6px">docker compose up -d</code> in the
+    <b>server/</b> folder. See the project README for internet hosting and passwords.</p>
+
+  <footer>Unofficial project. The Blockheads is a trademark of its owner. No game code is distributed here.</footer>
+</main>
+<script>
+  const $ = (id) => document.getElementById(id);
+  const enc = encodeURIComponent;
+  function build() {
+    const host = ($('host').value || '').trim();
+    const port = ($('port').value || '15151').trim();
+    const name = ($('name').value || 'PRESERVED').trim();
+    $('hintHost').textContent = host || 'your server address';
+    $('hintPort').textContent = port;
+    const q = `ip=${enc(host)}&port=${enc(port)}&name=${enc(name)}`;
+    $('link').textContent = `blockheads://join.php?${q}`;
+    $('open').href = `blockheads://join.php?${q}`;
+    $('copyHttp').dataset.href = `http://theblockheads.net/join.php?${q}`;
+  }
+  async function copy(text, btn) {
+    try { await navigator.clipboard.writeText(text); }
+    catch { const t = document.createElement('textarea'); t.value = text; document.body.append(t); t.select(); document.execCommand('copy'); t.remove(); }
+    const old = btn.textContent; btn.textContent = 'Copied'; setTimeout(() => (btn.textContent = old), 1200);
+  }
+  for (const id of ['host', 'port', 'name']) $(id).addEventListener('input', build);
+  $('copy').addEventListener('click', () => copy($('link').textContent, $('copy')));
+  $('copyHttp').addEventListener('click', (e) => copy(e.currentTarget.dataset.href, e.currentTarget));
+  build();
+</script>
+</body>
+</html>

@@ -1,0 +1,8 @@
+node_modules/
+pack/dist/
+server/data/
+*.apk
+*.idsig
+*.keystore
+signing.json
+.DS_Store

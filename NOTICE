@@ -1,0 +1,28 @@
+Blockheads Preserved
+Copyright (C) 2026 Blockheads Preserved contributors
+
+This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later
+version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with this program. If not, see
+<https://www.gnu.org/licenses/>.
+
+--------------------------------------------------------------------------------
+Bundled / fetched third-party components
+
+1. Blockheads Patcher (https://github.com/Blockheads-Club/blockheads-patcher)
+   License: GPL-3.0-or-later
+   Used as the git submodule `third_party/blockheads-patcher`, pinned to tag v0.5.1.
+   Provides APK/AXML/ELF patching, the .bhpack format, signing and the upstream patches.
+
+2. Blockheads Server (https://github.com/Blockheads-Club/blockheads-server)
+   License: GPL-3.0-or-later
+   Fetched at Docker build time, pinned to tag v0.5.1. Not vendored.
+
+3. The Blockheads (game) and its assets are property of Majic Jungle Software.
+   No game code, assets or APKs are distributed by this repository. The patcher
+   only modifies a copy supplied by the user.

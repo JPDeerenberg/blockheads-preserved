@@ -1,0 +1,130 @@
+{
+  "$schema": "../../third_party/blockheads-patcher/docs/pack.schema.json",
+  "schemaVersion": 1,
+  "id": "blockheads-preserved",
+  "version": "1.0.0",
+  "name": { "en": "Blockheads Preserved" },
+  "description": {
+    "en": "Offline-friendly client changes for The Blockheads 1.7.6: unlimited time crystals, double time unlocked, no ads and no store entry points. Designed to be used together with a self-hosted Blockheads server."
+  },
+  "author": "Blockheads Preserved contributors",
+  "minPatcherVersion": "0.5.1",
+  "appliesTo": {
+    "packageName": "com.noodlecake.blockheads",
+    "versionNames": ["1.7.6"]
+  },
+  "patches": [
+    {
+      "id": "unlimited-crystals",
+      "name": { "en": "Unlimited time crystals" },
+      "summary": { "en": "The crystal balance always reads 1,000,000." },
+      "description": {
+        "en": "Rewrites -[CrystalManager amount] to return 1,000,000. The counter and every purchase that spends crystals keep working; the balance simply never runs out."
+      },
+      "ops": [
+        {
+          "op": "native.patch",
+          "lib": "lib/armeabi-v7a/libApplication.so",
+          "libSha256": "733d821027d69de329d0ba171df2e6013d612edf5a4d327badd001acc30b94c7",
+          "locate": { "objcMethod": "-[CrystalManager amount]" },
+          "expect": "08d04de22c209fe502208fe0",
+          "replace": "40020fe300004fe31eff2fe1"
+        }
+      ]
+    },
+    {
+      "id": "double-time-unlocked",
+      "name": { "en": "Double time unlocked" },
+      "summary": { "en": "Double time is always on, without a purchase." },
+      "description": {
+        "en": "Rewrites -[World doubleTimeUnlocked] to return YES. Double time is a per-world perk that normally costs a separate in-app purchase."
+      },
+      "ops": [
+        {
+          "op": "native.patch",
+          "lib": "lib/armeabi-v7a/libApplication.so",
+          "libSha256": "733d821027d69de329d0ba171df2e6013d612edf5a4d327badd001acc30b94c7",
+          "locate": { "objcMethod": "-[World doubleTimeUnlocked]" },
+          "expect": "08d04de22c209fe502208fe0",
+          "replace": "0100a0e31eff2fe10000a0e1"
+        }
+      ]
+    },
+    {
+      "id": "remove-ads",
+      "name": { "en": "Remove ads" },
+      "summary": { "en": "Ad prompts are never offered." },
+      "description": {
+        "en": "Rewrites -[MainMenuUI canDisplayAd] and -[CloudInterface canDisplayAd] to return NO. The game never offers a rewarded ad and the ad SDKs are never asked to show one. The SDKs stay in the APK because removing them would change the native bridge."
+      },
+      "ops": [
+        {
+          "op": "native.patch",
+          "lib": "lib/armeabi-v7a/libApplication.so",
+          "libSha256": "733d821027d69de329d0ba171df2e6013d612edf5a4d327badd001acc30b94c7",
+          "locate": { "objcMethod": "-[MainMenuUI canDisplayAd]" },
+          "expect": "00482de910d04de2f0209fe5",
+          "replace": "0000a0e31eff2fe10000a0e1"
+        },
+        {
+          "op": "native.patch",
+          "lib": "lib/armeabi-v7a/libApplication.so",
+          "libSha256": "733d821027d69de329d0ba171df2e6013d612edf5a4d327badd001acc30b94c7",
+          "locate": { "objcMethod": "-[CloudInterface canDisplayAd]" },
+          "expect": "00482de910d04de2bc209fe5",
+          "replace": "0000a0e31eff2fe10000a0e1"
+        }
+      ]
+    },
+    {
+      "id": "remove-store",
+      "name": { "en": "Remove the store" },
+      "summary": { "en": "The time-crystal and double-time store screens cannot be opened." },
+      "description": {
+        "en": "Rewrites the store entry points (-[MainMenuUI timeCrystalButton:], -[MainMenuUI showTimeCrystalPurcahseUI:], -[World timeCrystalButtonTapped] and -[TCUI buyButton:]) to return immediately, and -[World purchaseDoubleTime] to do nothing. Nothing in the game can start a Google Play purchase; the crystal counter stays visible and always reads 1,000,000."
+      },
+      "ops": [
+        {
+          "op": "native.patch",
+          "lib": "lib/armeabi-v7a/libApplication.so",
+          "libSha256": "733d821027d69de329d0ba171df2e6013d612edf5a4d327badd001acc30b94c7",
+          "locate": { "objcMethod": "-[MainMenuUI timeCrystalButton:]" },
+          "expect": "104c2de908b08de210d04de2",
+          "replace": "1eff2fe10000a0e10000a0e1"
+        },
+        {
+          "op": "native.patch",
+          "lib": "lib/armeabi-v7a/libApplication.so",
+          "libSha256": "733d821027d69de329d0ba171df2e6013d612edf5a4d327badd001acc30b94c7",
+          "locate": { "objcMethod": "-[MainMenuUI showTimeCrystalPurcahseUI:]" },
+          "expect": "704c2de910b08de238d04de2",
+          "replace": "1eff2fe10000a0e10000a0e1"
+        },
+        {
+          "op": "native.patch",
+          "lib": "lib/armeabi-v7a/libApplication.so",
+          "libSha256": "733d821027d69de329d0ba171df2e6013d612edf5a4d327badd001acc30b94c7",
+          "locate": { "objcMethod": "-[World timeCrystalButtonTapped]" },
+          "expect": "f04d2de918b08de211de4de2",
+          "replace": "1eff2fe10000a0e10000a0e1"
+        },
+        {
+          "op": "native.patch",
+          "lib": "lib/armeabi-v7a/libApplication.so",
+          "libSha256": "733d821027d69de329d0ba171df2e6013d612edf5a4d327badd001acc30b94c7",
+          "locate": { "objcMethod": "-[TCUI buyButton:]" },
+          "expect": "f04d2de918b08de2f6df4de2",
+          "replace": "1eff2fe10000a0e10000a0e1"
+        },
+        {
+          "op": "native.patch",
+          "lib": "lib/armeabi-v7a/libApplication.so",
+          "libSha256": "733d821027d69de329d0ba171df2e6013d612edf5a4d327badd001acc30b94c7",
+          "locate": { "objcMethod": "-[World purchaseDoubleTime]" },
+          "expect": "f04d2de918b08de278d04de2",
+          "replace": "1eff2fe10000a0e10000a0e1"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "name": "blockheads-preserved",
+  "private": true,
+  "license": "GPL-3.0-or-later",
+  "type": "module",
+  "workspaces": [
+    "patcher"
+  ],
+  "scripts": {
+    "build:pack": "tsx scripts/build-pack.ts",
+    "patch": "tsx patcher/src/cli.ts patch",
+    "verify": "tsx patcher/src/cli.ts verify",
+    "typecheck": "tsc --noEmit -p patcher",
+    "test:pack": "tsx scripts/test-pack.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.0",
+    "tsx": "^4.20.3",
+    "typescript": "^5.9.2"
+  }
+}

@@ -1,0 +1,68 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  patcher:
+    name: Pack + patcher
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Build and validate the patch pack
+        run: npm run build:pack
+
+      - name: Structural pack checks
+        run: npm run test:pack
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: CLI help
+        run: npm run patch -- --help
+
+      - name: Join link generator
+        run: node scripts/join-link.mjs 192.168.1.20 15151 PRESERVED
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: blockheads-preserved-pack
+          path: pack/dist/*.bhpack
+
+  server:
+    name: Server image
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: docker/setup-buildx-action@v3
+
+      - name: Build image
+        run: docker build -t blockheads-preserved-server ./server
+
+      - name: Binary runs
+        run: docker run --rm blockheads-preserved-server --help
+
+      - name: Server starts and listens on UDP 15151
+        run: |
+          docker run -d --name bh --network host -e BH_WORLD=CI blockheads-preserved-server
+          sleep 5
+          docker logs bh
+          ss -lunp | grep ':15151 '
+          docker stop bh
