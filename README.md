@@ -54,7 +54,7 @@ uninstall, join links) plus four changes from the bundled `Blockheads Preserved`
 | `unlimited-crystals` | `-[CrystalManager amount]` returns `1,000,000` |
 | `double-time-unlocked` | `-[World doubleTimeUnlocked]` returns `YES` |
 | `remove-ads` | `-[MainMenuUI canDisplayAd]` and `-[CloudInterface canDisplayAd]` return `NO` |
-| `remove-store` | store entry points return immediately; `-[World purchaseDoubleTime]` is a no-op |
+| `remove-store` | all 11 store entry points (menu, world HUD, craft panel, double-time dialogs) return immediately |
 
 Every change is a byte-level ARM rewrite with an exact `expect` guard — the pack refuses to apply to a binary it does
 not recognise. See [docs/REVERSE-ENGINEERING.md](docs/REVERSE-ENGINEERING.md) for addresses, bytes and method evidence.
@@ -95,7 +95,7 @@ patcher/              CLI around @bh-patcher/core (apply pack, sign, verify)
 server/               Dockerfile, compose file, entrypoint, join-link page
 docs/                 reverse-engineering notes and server guide
 scripts/              pack builder, join-link generator
-.github/workflows/    CI: pack build+lint, APK patch smoke test, server build+probe
+.github/workflows/    CI: pack build+checks, typecheck, Docker image build and server restart probe
 ```
 
 ## Legal
