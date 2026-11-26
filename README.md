@@ -78,6 +78,15 @@ That creates a world called `PRESERVED` on **UDP 15151** and stores it in `serve
 See [docs/SERVER.md](docs/SERVER.md) for internet hosting, passwords, admins, backups, join links and the
 `blockheads://join.php?...` link format.
 
+## Verified here
+
+| Check | Result |
+|---|---|
+| APK patch | 16 patches applied in ~32 s; all **15** native rewrites read back byte-exact; v1+v2 signatures and zipalign verified |
+| Manifest | `targetSdkVersion 28` and `usesCleartextTraffic=true` (read from the AXML table; apktool omits `<uses-sdk>`) |
+| Server | v0.5.1 built and run on UDP 15151: `SERVER_INITIAL_CONTACT` (protocol v38), join approved, `WORLD_SUMMARY` and initial block data received by the test client |
+| Not tested | a physical Android device, and this exact patched APK joined to this server (the protocol path is identical) |
+
 ## Repository layout
 
 ```

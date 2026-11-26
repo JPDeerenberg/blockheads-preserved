@@ -23,8 +23,9 @@ Defaults:
 | Owner name | unset | `BH_OWNER=Steve` |
 | Data | `server/data/` | edit the volume in `compose.yaml` |
 
-The entrypoint creates the world on first start and loads it afterwards (`-n` / `-o`). The container stops cleanly on
-`docker compose down`; the world is written to `data/saves/<world>/`.
+The entrypoint creates the world on first start and loads it afterwards (`-n` / `-o`). Because the server stores each
+world in a directory named by its random id, the entrypoint resolves the display name with `--list` before loading. The
+container stops cleanly on `docker compose down`; the world is written to `data/saves/<world-id>/`.
 
 ### Without Docker
 
@@ -32,8 +33,10 @@ Grab a release from [Blockheads Server](https://github.com/Blockheads-Club/block
 
 ```bash
 BLOCKHEADS_DATA_DIR=$PWD/data ./blockheads_server --new "PRESERVED" --port 15151
-# later
-BLOCKHEADS_DATA_DIR=$PWD/data ./blockheads_server --load "PRESERVED" --port 15151
+# later: --load takes the world *id*, not the display name
+BLOCKHEADS_DATA_DIR=$PWD/data ./blockheads_server --list
+#   "PRESERVED" stored in directory named 4c725514a6320d8f54dd461dc1556f4b
+BLOCKHEADS_DATA_DIR=$PWD/data ./blockheads_server --load 4c725514a6320d8f54dd461dc1556f4b --port 15151
 ```
 
 `--help` lists the original options (`-m` max players, `-P` privacy, `-u` owner, `-s` save delay, `-w` world width,
@@ -92,9 +95,10 @@ connections.
 Everything is under the data directory:
 
 ```
-data/saves/<world>/worldv2        world state
-data/saves/<world>/world_db/      block database (LMDB)
-data/saves/<world>/blocks/        per-block data
+data/saves/<world-id>/worldv2        world state
+data/saves/<world-id>/world_db/      block database (LMDB)
+data/saves/<world-id>/server_db/     server-side state (LMDB)
+data/saves/<world-id>/lightBlocks/   lighting cache (LMDB)
 ```
 
 Stop the container (or use `-s` to force a save) and copy the world folder:
@@ -130,7 +134,7 @@ delivery has not been device-tested for every Android version.
 |---|---|
 | "Could not connect" on Android 9 | Usually the welcome-dialog deadlock; the default patch set includes `fix-welcome-popup-deadlock`. |
 | Works on LAN, not over internet | UDP 15151 not forwarded, or CGNAT (ask your ISP for a public IP / use a VPS). |
-| Server starts then exits | Another process owns UDP 15151, or the world name does not exist with `--load`. Check `docker compose logs`. |
+| Server starts then exits | Another process owns UDP 15151, or `--load` was given a display name instead of the world id (`--list` shows it). Check `docker compose logs`. |
 | World resets | The data volume is not persisted, or `BH_WORLD` changed (a new world is created under the new name). |
 | Phone is 64-bit-only | The client is armeabi-v7a; it cannot run there. Use a 32-bit-capable device or an emulator with ARM translation. |
 

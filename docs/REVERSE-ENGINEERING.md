@@ -115,6 +115,17 @@ Verified on the real APK:
 Caveat: `apktool d` **omits** `<uses-sdk>` when decoding this manifest; do not use its XML output to check target SDK.
 Parse the AXML with the patcher core (or androguard) instead.
 
+The server was verified separately with the protocol test client from the same repository (v0.5.1):
+
+- `blockheads_server --new PROBE --port 15151` listened on UDP 15151 and created world id `4c725514…`;
+- `bh_client probe` received `SERVER_INITIAL_CONTACT` (protocol version 38) in 31 ms;
+- `bh_client join --alias ReaTest` received `WORLD_SUMMARY` (`worldName=PROBE`, seed, portal position), printed
+  `join: Approved`, then received `SERVER_INITIAL_DATA_REPLY`, a light-block update and a player-list notification;
+- the server logged the player connection and the disconnect, and the world survived a restart via `--load <id>`.
+
+The Android client talks this protocol directly; the cloud service only handled accounts, discovery and NAT
+punch-through. That is why direct-IP multiplayer still works without reviving the cloud.
+
 ## 6. Limits
 
 - **No arm64 port.** The game is a 32-bit Apportable binary; there is no source, and translating 17 MB of ObjC/ARM to
