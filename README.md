@@ -23,7 +23,7 @@ self-hosted server so multiplayer keeps working after the official online servic
 | **Ads removed** | The game never offers or requests a rewarded ad. |
 | **Multiplayer back** | Join a self-hosted server over LAN or the internet with **Join World → Advanced… → Online IP/Port**. The server and its compose file are included here; a public image is on GHCR (`ghcr.io/jpdeerenberg/blockheads-preserved-server:v1.0.0`), or run `docker compose up -d --build` to compile it locally. |
 | **Official cloud / accounts** | Still dead. The `cloud.theblockheads.net` / `portal.theblockheads.net` services were switched off in 2022; this project does not pretend to resurrect them. Direct-IP multiplayer does not need them. |
-| **64-bit-only phones** | Not supported, and cannot be without a source port: the game is Apportable-compiled Objective-C in a 17 MB **armeabi-v7a** binary. Pixel 7 and later, and some 2024+ flagships, refuse 32-bit code. |
+| **64-bit-only phones** | Not supported, and cannot be without a source port: the game is Apportable-compiled Objective-C in a 17 MB **armeabi-v7a** binary. Pixel 7 and later, and some 2024+ flagships, refuse 32-bit code. [Why, and what a real port would take →](docs/64-BIT.md) |
 
 ## 1. Build the patched APK
 
