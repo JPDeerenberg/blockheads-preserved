@@ -13,6 +13,14 @@ docker compose logs -f
 ```
 
 The first start compiles the Rust server inside Docker (roughly ten minutes on a laptop); later starts are instant.
+Prefer not to build? The CI-published image is public:
+
+```bash
+docker pull ghcr.io/jpdeerenberg/blockheads-preserved-server:v1.0.0
+docker run -d --name blockheads --restart unless-stopped \
+  -p 15151:15151/udp -v "$PWD/data:/data" \
+  ghcr.io/jpdeerenberg/blockheads-preserved-server:v1.0.0
+```
 
 Defaults:
 
