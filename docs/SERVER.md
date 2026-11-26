@@ -16,7 +16,7 @@ Defaults:
 
 | Setting | Default | Change with |
 |---|---|---|
-| World name | `PRESERVED` | `BH_WORLD=My World docker compose up -d` |
+| World name | `PRESERVED` | `BH_WORLD="My World" docker compose up -d` |
 | UDP port | `15151` | `BH_PORT=16000` (also edit the port mapping) |
 | Privacy | `public` | `BH_PRIVACY=private` or `searchable` |
 | Max players | engine default | `BH_MAX_PLAYERS=16` |
@@ -41,6 +41,9 @@ BLOCKHEADS_DATA_DIR=$PWD/data ./blockheads_server --load 4c725514a6320d8f54dd461
 
 `--help` lists the original options (`-m` max players, `-P` privacy, `-u` owner, `-s` save delay, `-w` world width,
 `-e` expert mode, `-c` credit…). There is also a desktop/Android GUI app upstream if you prefer clicking.
+
+`--credit` only applies to **cloud** matches; a world joined directly by IP/port is never metered, so the `credit=0`
+in the world summary does not limit play.
 
 ## Connecting from the game
 
