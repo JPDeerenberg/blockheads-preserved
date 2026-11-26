@@ -66,9 +66,11 @@ not recognise. See [docs/REVERSE-ENGINEERING.md](docs/REVERSE-ENGINEERING.md) fo
 
 ```bash
 cd server
-docker compose up -d
+docker compose up -d --build
 docker compose logs -f
 ```
+
+The first start compiles the Rust server inside Docker (roughly ten minutes on a laptop); later starts are instant.
 
 That creates a world called `PRESERVED` on **UDP 15151** and stores it in `server/data/`. On the phone:
 

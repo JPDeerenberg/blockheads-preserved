@@ -8,9 +8,11 @@ this repo are about Android compatibility and the store, not about the protocol.
 
 ```bash
 cd server
-docker compose up -d
+docker compose up -d --build
 docker compose logs -f
 ```
+
+The first start compiles the Rust server inside Docker (roughly ten minutes on a laptop); later starts are instant.
 
 Defaults:
 
