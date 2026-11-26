@@ -73,7 +73,8 @@ jobs:
           set -x
           docker run -d --name bh --network host -v bhdata:/data -e BH_WORLD=CI blockheads-preserved-server
           sleep 10
-          docker logs bh | tee restart.log
+          docker logs bh > restart.log 2>&1
+          cat restart.log
           created=$(grep -c 'Creating new world' restart.log || true)
           loaded=$(grep -c 'Loading world named "CI"' restart.log || true)
           echo "created=$created loaded=$loaded"

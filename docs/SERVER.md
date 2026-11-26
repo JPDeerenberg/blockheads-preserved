@@ -25,7 +25,8 @@ Defaults:
 
 The entrypoint creates the world on first start and loads it afterwards (`-n` / `-o`). Because the server stores each
 world in a directory named by its random id, the entrypoint resolves the display name with `--list` before loading. The
-container stops cleanly on `docker compose down`; the world is written to `data/saves/<world-id>/`.
+container stops on `docker compose down`; the server does **not** save on SIGTERM, so stop it while the world is idle —
+at most the last save interval (10 s, `-s`) is lost.
 
 ### Without Docker
 
@@ -104,7 +105,7 @@ data/saves/<world-id>/server_db/     server-side state (LMDB)
 data/saves/<world-id>/lightBlocks/   lighting cache (LMDB)
 ```
 
-Stop the container (or use `-s` to force a save) and copy the world folder:
+Stop the container while the world is idle (it autosaves every `-s` seconds, 10 by default) and copy the world folder:
 
 ```bash
 docker compose stop
