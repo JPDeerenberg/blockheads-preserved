@@ -9,8 +9,9 @@ const files: Record<string, Uint8Array> = {};
 const walk = (d: string): void => {
   for (const name of readdirSync(d).sort()) {
     const p = join(d, name);
-    if (statSync(p).isDirectory()) walk(p);
-    else files[relative(dir, p).split(sep).join('/')] = new Uint8Array(readFileSync(p));
+    if (statSync(p).isDirectory()) {
+      if (name !== 'dist') walk(p);
+    } else files[relative(dir, p).split(sep).join('/')] = new Uint8Array(readFileSync(p));
   }
 };
 walk(dir);

@@ -123,6 +123,54 @@
           "locate": { "objcMethod": "-[World purchaseDoubleTime]" },
           "expect": "f04d2de918b08de278d04de2",
           "replace": "1eff2fe10000a0e10000a0e1"
+        },
+        {
+          "op": "native.patch",
+          "lib": "lib/armeabi-v7a/libApplication.so",
+          "libSha256": "733d821027d69de329d0ba171df2e6013d612edf5a4d327badd001acc30b94c7",
+          "locate": { "objcMethod": "-[World doubleTimePurchaseTapped]" },
+          "expect": "104c2de908b08de210d04de2",
+          "replace": "1eff2fe10000a0e10000a0e1"
+        },
+        {
+          "op": "native.patch",
+          "lib": "lib/armeabi-v7a/libApplication.so",
+          "libSha256": "733d821027d69de329d0ba171df2e6013d612edf5a4d327badd001acc30b94c7",
+          "locate": { "objcMethod": "-[WorldUI timeCrystalButton:]" },
+          "expect": "104c2de908b08de210d04de2",
+          "replace": "1eff2fe10000a0e10000a0e1"
+        },
+        {
+          "op": "native.patch",
+          "lib": "lib/armeabi-v7a/libApplication.so",
+          "libSha256": "733d821027d69de329d0ba171df2e6013d612edf5a4d327badd001acc30b94c7",
+          "locate": { "objcMethod": "-[UIManager showTimeCrystalUITapped]" },
+          "expect": "30482de908b08de218d04de2",
+          "replace": "1eff2fe10000a0e10000a0e1"
+        },
+        {
+          "op": "native.patch",
+          "lib": "lib/armeabi-v7a/libApplication.so",
+          "libSha256": "733d821027d69de329d0ba171df2e6013d612edf5a4d327badd001acc30b94c7",
+          "locate": { "objcMethod": "-[UIManager showTimeCrystalUIWithRequiredCrystals:]" },
+          "expect": "00482de90db0a0e168d04de2",
+          "replace": "1eff2fe10000a0e10000a0e1"
+        },
+        {
+          "op": "native.patch",
+          "lib": "lib/armeabi-v7a/libApplication.so",
+          "libSha256": "733d821027d69de329d0ba171df2e6013d612edf5a4d327badd001acc30b94c7",
+          "locate": { "objcMethod": "-[UIManager showPurchaseDoubleTimeDialog]" },
+          "expect": "00482de90db0a0e108d04de2",
+          "replace": "1eff2fe10000a0e10000a0e1"
+        },
+        {
+          "op": "native.patch",
+          "lib": "lib/armeabi-v7a/libApplication.so",
+          "libSha256": "733d821027d69de329d0ba171df2e6013d612edf5a4d327badd001acc30b94c7",
+          "locate": { "objcMethod": "-[CraftUI purchaseDoubleTime]" },
+          "expect": "f04d2de918b08de238d04de2",
+          "replace": "1eff2fe10000a0e10000a0e1"
         }
       ]
     }

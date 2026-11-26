@@ -80,6 +80,12 @@ All commerce is in the native binary and funnels through a handful of tiny metho
 | `-[World timeCrystalButtonTapped]` | `0x5b5b54` | `f04d2de918b08de211de4de2` | `1eff2fe10000a0e10000a0e1` | return |
 | `-[TCUI buyButton:]` | `0xb60380` | `f04d2de918b08de2f6df4de2` | `1eff2fe10000a0e10000a0e1` | return |
 | `-[World purchaseDoubleTime]` | `0x5c4228` | `f04d2de918b08de278d04de2` | `1eff2fe10000a0e10000a0e1` | return |
+| `-[World doubleTimePurchaseTapped]` | `0x5c2858` | `104c2de908b08de210d04de2` | `1eff2fe10000a0e10000a0e1` | return |
+| `-[WorldUI timeCrystalButton:]` | `0xcfcc1c` | `104c2de908b08de210d04de2` | `1eff2fe10000a0e10000a0e1` | return |
+| `-[UIManager showTimeCrystalUITapped]` | `0xadc4dc` | `30482de908b08de218d04de2` | `1eff2fe10000a0e10000a0e1` | return |
+| `-[UIManager showTimeCrystalUIWithRequiredCrystals:]` | `0xadc5ac` | `00482de90db0a0e168d04de2` | `1eff2fe10000a0e10000a0e1` | return |
+| `-[UIManager showPurchaseDoubleTimeDialog]` | `0xadc9ec` | `00482de90db0a0e108d04de2` | `1eff2fe10000a0e10000a0e1` | return |
+| `-[CraftUI purchaseDoubleTime]` | `0xb817a4` | `f04d2de918b08de238d04de2` | `1eff2fe10000a0e10000a0e1` | return |
 
 Notes:
 
