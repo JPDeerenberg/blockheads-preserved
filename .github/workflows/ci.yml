@@ -70,9 +70,13 @@ jobs:
 
       - name: Restart reuses the same world
         run: |
+          set -x
           docker run -d --name bh --network host -v bhdata:/data -e BH_WORLD=CI blockheads-preserved-server
-          sleep 8
+          sleep 10
           docker logs bh | tee restart.log
-          ! grep -q 'Creating new world' restart.log
-          grep -q 'Loading world named "CI"' restart.log
+          created=$(grep -c 'Creating new world' restart.log || true)
+          loaded=$(grep -c 'Loading world named "CI"' restart.log || true)
+          echo "created=$created loaded=$loaded"
+          test "$created" -eq 0
+          test "$loaded" -ge 1
           docker stop bh
